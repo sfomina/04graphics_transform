@@ -1,6 +1,6 @@
 from display import *
 from draw import *
-import parser
+#import parser
 from matrix import *
 
 #print parser.tired()
@@ -11,16 +11,14 @@ color = [ 0, 255, 0 ]
 edges = new_matrix()
 transform = new_matrix()
 
-print_matrix([[1,4], [2,5],[3,6]])
-print (matrix_mult([[1,4], [2,5],[3,6]] , [[7,9,11] , [8,10,12]]))
+#print_matrix([[1,4], [2,5],[3,6]])
+#print (matrix_mult([[1,4], [2,5],[3,6]] , [[7,9,11] , [8,10,12]]))
 
 #print_matrix(transform)
 
 def parse_file( fname, points, transform, screen, color ):
-    print "ok"
     f = open(fname , 'r')
     cmds = f.read().split("\n")
-    print cmds
     for i in range(0,len(cmds)):
         if cmds[i] == "line":
             pts = cmds[i+1].split(" ")
@@ -49,17 +47,21 @@ def parse_file( fname, points, transform, screen, color ):
         elif cmds[i] == "rotate":
             args = cmds[i+1].split(" ")
             if args[0] == "x":
-                rot = makerotX(int(args[1]))
+                rot = make_rotX(int(args[1]))
             elif args[0] == "y":
-                rot = makerotY(int(args[1]))
+                rot = make_rotY(int(args[1]))
             else:
-                rot = makerotZ(int(args[1]))
+                rot = make_rotZ(int(args[1]))
             transform = matrix_mult(rot, transform)
         
         elif cmds[i] == "apply":
-            points = matrix_mult(transform , points)
+            #print "APPLY"
+            points = matrix_mult(transform, points)
+            #print_matrix( points)
         
         elif cmds[i] == "display":
+            print "DISP"
+            print(len(points))
             draw_lines(points, screen, color)
         
         elif cmds[i] == "save":
